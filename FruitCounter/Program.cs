@@ -29,6 +29,7 @@ namespace FruitCounter
 				cki = Console.ReadKey(true);
 				string fruitType = cki.Key.ToString();
 				string fuckingFruit;
+				bool canProceed = true;
 
 				switch (fruitType)
 				{
@@ -46,38 +47,52 @@ namespace FruitCounter
 						break;
 					default:
 						Console.WriteLine("Nessun frutto corrisponde al tipo da te inserito.");
+						canProceed = false;
+						Console.WriteLine(" ");
+						Console.WriteLine("INSERISCI DI NUOVO\nSchema di funzionamento: TASTO DI SCELTA - TIPO FRUTTO (PREZZO)");
+						Console.WriteLine(" ");
+						Console.WriteLine("A - Ananas (4€ al pezzo); \nO - Arance (2€ al pezzo); \nM - Mele: (1€ al pezzo)");
+						Console.WriteLine(" ");
 						break;
 				}
 
-				string qtLine = Console.ReadLine();
-				int fruitQuantity;
-				int.TryParse(qtLine, out fruitQuantity);
-				bool qtSel = true;
+				bool qtSel = false;
+				int fruitQuantity = 0;
+				if (canProceed)
+				{
+					string qtLine = Console.ReadLine();
+					int.TryParse(qtLine, out fruitQuantity);
+					qtSel = true;
+				}
+					
 
-				do
+				while (qtSel)
 				{
 					Console.WriteLine("Hai scelto di aggiungerene " + fruitQuantity + " " + fruitType);
 					for (int i = 0; i < fruitQuantity; i++)
 					{
-						if (fruitType.Equals("A"))
+						switch (fruitType)
 						{
-							basket.Add(new Pineapple(4));
+							case "A":
+								basket.Add(new Pineapple(4));
+								break;
+							case "M":
+								basket.Add(new Apple(1));
+								break;
+							case "O":
+								basket.Add(new Orange(2));
+								break;
 						}
-						else if (fruitType.Equals("M"))
-						{
-							basket.Add(new Apple(1));
-						}
-						else if (fruitType.Equals("O"))
-						{
-							basket.Add(new Orange(2));
-						}
-
 					};
 
 					checkOut = true;
 					qtSel = false;
 
+					Console.WriteLine(" ");
+					Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 					Console.WriteLine("Vuoi aggiungerne altra frutta? Y/N");
+					Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+					Console.WriteLine(" ");
 
 					do
 					{
@@ -85,21 +100,25 @@ namespace FruitCounter
 						string confirm = cki.Key.ToString();
 						if (confirm.Equals("Y") || confirm.Equals("y"))
 						{
-							Console.WriteLine("Digita 'A' per Ananas, 'O' per Arance e 'M' per Mele; subito dopo ti verrà chiesta la quantità desiderata :)");
+							Console.WriteLine(" ");
+							Console.WriteLine("A - Ananas (4€ al pezzo); \nO - Arance (2€ al pezzo); \nM - Mele: (1€ al pezzo)");
 							checkOut = false;
 							qtSel = false;
-
 						}
 						//Io qui chiudo l'ordine e mostro il totale dei prodotti e il costo ma si può fare un tasto dedicato ecc
 						//A voi eventuali raffinatezze
 						else if (confirm.Equals("N") || confirm.Equals("n"))
 						{
+							Console.WriteLine(" ");
+							Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 							Console.WriteLine("Perfetto, l'ordine è stato effettuato!");
+							Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+							Console.WriteLine(" ");
 							//Mostrare il totale dei pezzi e del prezzo
 						}
 					} while (checkOut);
 
-				} while (qtSel);
+				};
 
 			} while (typeSel);
 
